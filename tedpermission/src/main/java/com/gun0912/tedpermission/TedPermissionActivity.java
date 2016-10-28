@@ -1,17 +1,18 @@
 package com.gun0912.tedpermission;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.WindowManager;
 
@@ -24,7 +25,7 @@ import java.util.ArrayList;
 /**
  * Created by TedPark on 16. 2. 17..
  */
-public class TedPermissionActivity extends AppCompatActivity {
+public class TedPermissionActivity extends Activity {
 
     public static final int REQ_CODE_PERMISSION_REQUEST = 10;
     public static final int REQ_CODE_REQUEST_SETTING = 20;
@@ -142,7 +143,11 @@ public class TedPermissionActivity extends AppCompatActivity {
     }
 
     private boolean hasWindowPermission(){
-        return Settings.canDrawOverlays(getApplicationContext());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return Settings.canDrawOverlays(getApplicationContext());
+        }
+
+        return true;
     }
 
     private void requestWindowPermission() {
